@@ -81,7 +81,7 @@ const HomeScreen = ({navigation}: Props) => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text variant="titleLarge" style={styles.headerTitle}>
-          Upcoming Appointments
+          Aplicaciones recientes
         </Text>
         <Button
           mode="contained-tonal"
@@ -99,7 +99,7 @@ const HomeScreen = ({navigation}: Props) => {
       />
       <View style={styles.header}>
         <Text variant="titleLarge" style={styles.headerTitle}>
-          New Products
+          Nuevos productos
         </Text>
         <Button mode="contained-tonal" onPress={() => {}}>
           See All
@@ -115,7 +115,7 @@ const HomeScreen = ({navigation}: Props) => {
       />
       <View style={styles.header}>
         <Text variant="titleLarge" style={styles.headerTitle}>
-          Recent News
+          Noticias Agricolas
         </Text>
         <Button mode="contained-tonal" onPress={() => {}}>
           See All
@@ -131,7 +131,7 @@ const HomeScreen = ({navigation}: Props) => {
       />
       <View style={styles.header}>
         <Text variant="titleLarge" style={styles.headerTitle}>
-          Recent Articles
+          Articulos Recientes
         </Text>
         <Button mode="contained-tonal" onPress={() => {}}>
           See All

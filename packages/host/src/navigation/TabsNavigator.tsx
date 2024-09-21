@@ -3,11 +3,13 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import HomeNavigator from './HomeNavigator';
 import ServicesNavigator from './ServicesNavigator';
 import AccountNavigator from './AccountNavigator';
+import MarketplaceNativator from './MarketplaceNativator';
 
 export type TabsParamList = {
   HomeNavigator: undefined;
   ServicesNavigator: undefined;
   AccountNavigator: undefined;
+  MarketplaceNativator:undefined;
 };
 
 const Tabs = createMaterialBottomTabNavigator<TabsParamList>();
@@ -27,9 +29,18 @@ const TabsNavigator = () => {
         name="ServicesNavigator"
         component={ServicesNavigator}
         options={{
-          title: 'Services',
+          title: 'Mis apps',
           tabBarIcon: 'apps',
         }}
+      />
+      <Tabs.Screen
+       name="MarketplaceNativator"
+       component={MarketplaceNativator}
+       options={{
+        title: 'Marketplace',
+        tabBarIcon: 'store',
+      }}
+
       />
       <Tabs.Screen
         name="AccountNavigator"
