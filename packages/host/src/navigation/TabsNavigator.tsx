@@ -9,7 +9,7 @@ export type TabsParamList = {
   HomeNavigator: undefined;
   ServicesNavigator: undefined;
   AccountNavigator: undefined;
-  MarketplaceNativator:undefined;
+  MarketplaceNativator: undefined;
 };
 
 const Tabs = createMaterialBottomTabNavigator<TabsParamList>();
@@ -22,7 +22,7 @@ const TabsNavigator = () => {
         component={HomeNavigator}
         options={{
           title: 'Home',
-          tabBarIcon: 'home',
+          tabBarIcon: 'home-outline',
         }}
       />
       <Tabs.Screen
@@ -30,24 +30,23 @@ const TabsNavigator = () => {
         component={ServicesNavigator}
         options={{
           title: 'Mis apps',
-          tabBarIcon: 'apps',
+          tabBarIcon: 'heart-outline',
         }}
       />
       <Tabs.Screen
-       name="MarketplaceNativator"
-       component={MarketplaceNativator}
-       options={{
-        title: 'Marketplace',
-        tabBarIcon: 'store',
-      }}
-
+        name="MarketplaceNativator"
+        component={MarketplaceNativator}
+        options={{
+          title: 'Marketplace',
+          tabBarIcon: 'store-outline',
+        }}
       />
       <Tabs.Screen
         name="AccountNavigator"
         component={AccountNavigator}
         options={{
           title: 'Account',
-          tabBarIcon: 'account',
+          tabBarIcon: 'account-outline',
         }}
       />
     </Tabs.Navigator>

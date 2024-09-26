@@ -1,87 +1,59 @@
-import React, {useCallback} from 'react';
+import React, { useEffect } from 'react';
 import {
-  Alert,
   FlatList,
-  ListRenderItemInfo,
   StyleSheet,
   View,
+  Text,
 } from 'react-native';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {MainStackParamList} from '../navigation/MainNavigator';
-import {Card, Paragraph, Title} from 'react-native-paper';
-import services from '../data/services.json';
-import {ServicesStackParamList} from '../navigation/ServicesNavigator';
+import useStore from '../hooks/usefavorites';
+import miniapps from '../data/minisapps.json';
+import MiniAppItem from '../components/MiniAppItem';
 
-type ServiceScreenProps = CompositeScreenProps<
-  NativeStackScreenProps<ServicesStackParamList, 'Services'>,
-  NativeStackScreenProps<MainStackParamList>
->;
+const ServicesScreen = () => {
+  // Obtener los favoritos desde la store
+  const { favorites, initializeFavorites, toggleFavorite } = useStore();
 
-type ServiceMenuItem = {
-  id: string;
-  title: string;
-  description: string;
-  image: string;
-};
+  useEffect(() => {
+    initializeFavorites(); // Cargar los favoritos al iniciar
+  }, [initializeFavorites]);
 
-const ServicesScreen = ({navigation}: ServiceScreenProps) => {
-  const openBooking = useCallback(
-    () => navigation.navigate('Booking'),
-    [navigation],
-  );
+  // Filtrar mini apps favoritas usando el arreglo de favoritos
+  const favoriteMiniApps = miniapps.filter((miniapp) => favorites.includes(miniapp.id));
 
-  const openNews = useCallback(() => navigation.navigate('News'), [navigation]);
-
-  const openShopping = useCallback(
-    () => navigation.navigate('Shopping'),
-    [navigation],
-  );
-
-  const openDashboard = useCallback(
-    () => navigation.navigate('Dashboard'),
-    [navigation],
-  );
-
-  const renderItem = useCallback(
-    ({item, index}: ListRenderItemInfo<ServiceMenuItem>) => {
-      const lastItem = index === services.data.length - 1;
-      const map = new Map([
-        ['booking', openBooking],
-        ['news', openNews],
-        ['shopping', openShopping],
-        ['dashboard', openDashboard],
-      ]);
-
-      const onPress =
-        map.get(item.id) ?? (() => Alert.alert('Not implemented yet'));
-
-      return (
-        <View style={[styles.serviceItem, lastItem && styles.lastServiceItem]}>
-          <Card mode="contained" onPress={onPress} style={styles.cardItem}>
-            <Card.Cover source={{uri: `${item.image}?${index}`}} />
-            <Card.Content>
-              <Title numberOfLines={1}>{item.title}</Title>
-              <Paragraph numberOfLines={1}>{item.description}</Paragraph>
-            </Card.Content>
-          </Card>
-        </View>
-      );
-    },
-    [openBooking, openDashboard, openNews, openShopping],
+  // Renderizar cada mini app usando MiniAppItem
+  const renderItem = ({ item }) => (
+    <MiniAppItem
+      miniapp={item}
+      isFavorite={favorites.includes(item.id)}
+      onToggleFavorite={toggleFavorite}
+      onShowInfo={() => {}}
+      onOpenApp={() => {}}
+    />
   );
 
   return (
-    <FlatList
-      numColumns={2}
-      data={services.data}
-      renderItem={renderItem}
-      contentContainerStyle={styles.contentContainer}
-    />
+    <View style={styles.container}>
+      {favoriteMiniApps.length > 0 ? (
+        <FlatList
+          numColumns={2} // Ajustar el número de columnas
+          data={favoriteMiniApps} // Lista de mini apps favoritas
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.contentContainer}
+        />
+      ) : (
+        <Text>No tienes mini apps favoritas aún.</Text>
+      )}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
   contentContainer: {
     padding: 8,
   },
@@ -92,9 +64,6 @@ const styles = StyleSheet.create({
   },
   lastServiceItem: {
     maxWidth: '50%',
-  },
-  cardItem: {
-    flex: 1,
   },
 });
 

@@ -15,7 +15,7 @@ const ServicesNavigator = () => {
       screenOptions={{
         header: NavBar,
       }}>
-      <Home.Screen name="Services" component={ServicesScreen} />
+      <Home.Screen name="Mis Favoritos" component={ServicesScreen} />
     </Home.Navigator>
   );
 };

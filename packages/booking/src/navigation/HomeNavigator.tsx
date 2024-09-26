@@ -16,7 +16,7 @@ const HomeNavigator = () => {
     <Home.Navigator
       screenOptions={{
         header: NavBar,
-        title: 'Booking',
+        title: 'PlagaDetect',
       }}>
       <Home.Screen name="Home" component={HomeScreen} />
       <Home.Screen name="Upcoming" component={UpcomingScreen} />

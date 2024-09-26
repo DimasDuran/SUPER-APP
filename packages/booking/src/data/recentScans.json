@@ -1,0 +1,20 @@
+{
+    "data": [
+      {
+        "plantName": "Tomato Plant",
+        "result": "Healthy",
+        "date": "2024-09-20"
+      },
+      {
+        "plantName": "Coffee Plant",
+        "result": "Detected: Rust Disease",
+        "date": "2024-09-19"
+      },
+      {
+        "plantName": "Corn",
+        "result": "Detected: Pest Infestation",
+        "date": "2024-09-18"
+      }
+    ]
+  }
+  

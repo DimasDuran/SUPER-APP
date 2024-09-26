@@ -1,36 +1,20 @@
 {
     "data": [
-        {
-            "id": "1",
-            "type": "haircut",
-            "title": "Haircut",
-            "place": "Barbershop",
-            "address": "123 Main St",
-            "image": "https://picsum.photos/700?a"
-        },
-        {
-            "id": "2",
-            "type": "nails",
-            "title": "Nails",
-            "place": "Beauty salon",
-            "address": "456 Main St",
-            "image": "https://picsum.photos/700"
-        },
-        {
-            "id": "3",
-            "type": "hair coloring",
-            "title": "Hair coloring",
-            "place": "Beauty salon",
-            "address": "789 Main St",
-            "image": "https://picsum.photos/700"
-        },
-        {
-            "id": "4",
-            "type": "haircut",
-            "title": "Haircut",
-            "place": "Barbershop",
-            "address": "123 Main St",
-            "image": "https://picsum.photos/700"
-        }
+      {
+        "title": "Scan Plant",
+        "description": "Use your camera to scan plants for pest detection.",
+        "image": "https://images.pexels.com/photos/2749165/pexels-photo-2749165.jpeg?cs=srgb&dl=pexels-nc-farm-bureau-mark-2749165.jpg&fm=jpg"
+      },
+      {
+        "title": "Pest Control Tips",
+        "description": "Get expert tips on controlling pests in your crops.",
+        "image": "https://agroverdad.com.ar/wp-content/uploads/2021/05/prorindes-smn-crea-650x404.png"
+      },
+      {
+        "title": "Disease Management",
+        "description": "Learn how to manage plant diseases effectively.",
+        "image": "https://www.shutterstock.com/image-photo/cuttingedge-smart-farm-technology-meets-600nw-2490174165.jpg"
+      }
     ]
-}
+  }
+  
