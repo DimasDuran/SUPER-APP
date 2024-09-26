@@ -7,11 +7,17 @@ packages/booking/.env
 # Node.js
 node_modules/
 .env
-
+.images
+.changeset
+.CODE_OF_CONDUCT.md
+.CONTRIBUTING.md
 # Documentation files
 .LICENCE
 .RELEASING.md
-
+.LICENSE
+.RELEASING.md
+.mprocs.yaml
+.pnpm-workspace.yaml
 # Xcode
 build/
 *.pbxuser
