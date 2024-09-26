@@ -1,23 +1,24 @@
 # OSX
 .DS_Store
 
-# Environment variables
-packages/booking/.env
-
-# Node.js
-node_modules/
-.env
-.images
-.changeset
-.CODE_OF_CONDUCT.md
-.CONTRIBUTING.md
 # Documentation files
 .LICENCE
-.RELEASING.md
 .LICENSE
 .RELEASING.md
 .mprocs.yaml
 .pnpm-workspace.yaml
+
+# Environment variables
+packages/booking/.env
+.env
+
+# Node.js
+node_modules/
+.images/
+.changeset/
+.CODE_OF_CONDUCT.md
+.CONTRIBUTING.md
+
 # Xcode
 build/
 *.pbxuser
