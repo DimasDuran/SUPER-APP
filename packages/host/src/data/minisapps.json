@@ -1,30 +1,29 @@
 [
-    { 
-      "id": "1", 
-      "name": "Detección de Plagas", 
-      "category": "Control", 
-      "icon": "bug-outline", 
-      "color": "#FBBC05", 
-      "description": "🦠👩‍🌾🔍 Identifica plagas en tus cultivos rápidamente y protege tu cosecha. Con esta herramienta, podrás realizar un diagnóstico eficaz y recibir recomendaciones para el manejo adecuado de las plagas.", 
-      "disabled": false 
-    },
-    { 
-      "id": "2", 
-      "name": "Monitoreo de Cultivos", 
-      "category": "Monitoreo", 
-      "icon": "eye-outline", 
-      "color": "#4285F4", 
-      "description": "🌱📈🕒 Monitorea la salud de tus cultivos en tiempo real. Esta miniapp te permite visualizar datos sobre el crecimiento y estado de tus plantas, facilitando decisiones rápidas para mejorar tu producción.", 
-      "disabled": true 
-    },
-    { 
-      "id": "3", 
-      "name": "Manejo de Recursos", 
-      "category": "Gestión", 
-      "icon": "leaf-outline", 
-      "color": "#34A853", 
-      "description": "💧🌾📊 Optimiza el uso de recursos para una mejor eficiencia en tu agricultura. Con esta herramienta, podrás gestionar el agua, fertilizantes y otros insumos, asegurando un uso responsable y sostenible.", 
-      "disabled": true 
-    }
-  ]
-  
+  { 
+    "id": "1", 
+    "name": "PlagaGuard", 
+    "category": "Control", 
+    "icon": "bug-outline", 
+    "color": "#FBBC05", 
+    "description": "🦠👩‍🌾🔍 Identifica plagas en tus cultivos rápidamente y protege tu cosecha. Con esta herramienta, podrás realizar un diagnóstico eficaz y recibir recomendaciones para el manejo adecuado de las plagas.", 
+    "disabled": false 
+  },
+  { 
+    "id": "2", 
+    "name": "CropWatch", 
+    "category": "Monitoreo", 
+    "icon": "eye-outline", 
+    "color": "#4285F4", 
+    "description": "🌱📈🕒 Monitorea la salud de tus cultivos en tiempo real. Esta miniapp te permite visualizar datos sobre el crecimiento y estado de tus plantas, facilitando decisiones rápidas para mejorar tu producción.", 
+    "disabled": true 
+  },
+  { 
+    "id": "3", 
+    "name": "AgriResource", 
+    "category": "Gestión", 
+    "icon": "leaf-outline", 
+    "color": "#34A853", 
+    "description": "💧🌾📊 Optimiza el uso de recursos para una mejor eficiencia en tu agricultura. Con esta herramienta, podrás gestionar el agua, fertilizantes y otros insumos, asegurando un uso responsable y sostenible.", 
+    "disabled": true 
+  }
+]

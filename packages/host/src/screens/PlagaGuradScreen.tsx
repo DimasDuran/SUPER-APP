@@ -3,17 +3,17 @@ import React from 'react';
 import ErrorBoundary from '../components/ErrorBoundary';
 import Placeholder from '../components/Placeholder';
 
-const Booking = React.lazy(() => Federated.importModule('booking', './App'));
+const MiniAppPlagaGuard = React.lazy(() => Federated.importModule('booking', './App'));
 
-const BookingScreen = () => {
+const PlagaGuradScreen = () => {
   return (
     <ErrorBoundary name="BookingScreen">
       <React.Suspense
-        fallback={<Placeholder label="Booking" icon="calendar" />}>
-        <Booking />
+        fallback={<Placeholder label="PlagaGuard App" icon="bug-outline" />}>
+        <MiniAppPlagaGuard />
       </React.Suspense>
     </ErrorBoundary>
   );
 };
 
-export default BookingScreen;
+export default PlagaGuradScreen;

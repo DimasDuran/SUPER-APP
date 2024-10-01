@@ -239,6 +239,9 @@ export default env => {
          * The name of the module is used to identify the module in URLs resolver and imports.
          */
         name: 'host',
+        remotes: {
+          booking: 'booking@http://localhost:9000/remoteEntry.js',
+        },
         /**
          * Shared modules are shared in the share scope.
          * React, React Native and React Navigation should be provided here because there should be only one instance of these modules.

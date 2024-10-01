@@ -1,28 +1,32 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeNavigator from './HomeNavigator';
-import CalendarNavigator from './CalendarNavigator';
+import DetectNavigator from './DetectNavigator';
 import AccountNavigator from './AccountNavigator';
+import useCameraStore from '../hooks/CameraStore';
 
 export type TabsParamList = {
   HomeNavigator: undefined;
-  CalendarNavigator: undefined;
+  ScannerNavigator: undefined;
   AccountNavigator: undefined;
 };
 
 const Tabs = createMaterialBottomTabNavigator<TabsParamList>();
 
 const TabsNavigator = () => {
+
+  const { setCameraActive } = useCameraStore();
+
   return (
     <Tabs.Navigator
       barStyle={{
-        backgroundColor: '#ffffff', // Fondo blanco
-        elevation: 0, // Eliminar sombra en Android
-        shadowOpacity: 0, // Eliminar sombra en iOS
-        shadowColor: 'transparent', // Eliminar cualquier sombra residual
+        backgroundColor: '#ffffff', 
+        elevation: 0, 
+        shadowOpacity: 0,
+        shadowColor: 'transparent', 
       }}
-      activeColor="#388E3C" // Verde para iconos activos
-      inactiveColor="#A5D6A7" // Verde suave para iconos inactivos
+      activeColor="#388E3C" 
+      inactiveColor="#A5D6A7" 
     >
       <Tabs.Screen
         name="HomeNavigator"
@@ -33,11 +37,16 @@ const TabsNavigator = () => {
         }}
       />
       <Tabs.Screen
-        name="CalendarNavigator"
-        component={CalendarNavigator}
+        name="ScannerNavigator"
+        component={DetectNavigator}
         options={{
           title: 'Scanner',
-          tabBarIcon: 'barcode-scan',
+          tabBarIcon: 'camera',
+        }}
+        listeners={{
+          tabPress:() =>{
+            setCameraActive(true)
+          }
         }}
       />
       <Tabs.Screen

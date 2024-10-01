@@ -1,54 +1,54 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import HomeNavigator from './HomeNavigator';
-import ServicesNavigator from './ServicesNavigator';
-import AccountNavigator from './AccountNavigator';
-import MarketplaceNativator from './MarketplaceNativator';
+import BlogNavigator from './BlogNavigator';
+// import AccountNavigator from './AccountNavigator';
+import NotificationNativator from './NotificationNativator';
 
 export type TabsParamList = {
-  HomeNavigator: undefined;
-  ServicesNavigator: undefined;
-  AccountNavigator: undefined;
-  MarketplaceNativator: undefined;
+  HomeNav: undefined;
+  BlogNav: undefined;
+  AccountNav: undefined;
+  NotificationNav: undefined;
 };
 
 const Tabs = createMaterialBottomTabNavigator<TabsParamList>();
 
 const TabsNavigator = () => {
   return (
-    <Tabs.Navigator>
+    <Tabs.Navigator
+    inactiveColor='#4a4e4d'
+    activeColor='#0a0a0a'
+    barStyle={{backgroundColor:'#fff'}}
+    
+    >
       <Tabs.Screen
-        name="HomeNavigator"
+        name="HomeNav"
         component={HomeNavigator}
+        
+         
         options={{
-          title: 'Home',
+          title: '',
           tabBarIcon: 'home-outline',
         }}
       />
       <Tabs.Screen
-        name="ServicesNavigator"
-        component={ServicesNavigator}
+        name="BlogNav"
+        component={BlogNavigator}
         options={{
-          title: 'Mis apps',
-          tabBarIcon: 'heart-outline',
+          title: 'Blogs',
+          tabBarIcon: 'newspaper-variant-multiple',
         }}
       />
       <Tabs.Screen
-        name="MarketplaceNativator"
-        component={MarketplaceNativator}
+        name="NotificationNav"
+        component={NotificationNativator}
         options={{
-          title: 'Marketplace',
-          tabBarIcon: 'store-outline',
+          title: 'Notificaciones',
+          tabBarIcon: 'bell-outline',
         }}
       />
-      <Tabs.Screen
-        name="AccountNavigator"
-        component={AccountNavigator}
-        options={{
-          title: 'Account',
-          tabBarIcon: 'account-outline',
-        }}
-      />
+     
     </Tabs.Navigator>
   );
 };

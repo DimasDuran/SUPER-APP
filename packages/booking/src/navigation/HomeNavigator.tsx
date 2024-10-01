@@ -2,11 +2,11 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from '../screens/HomeScreen';
 import NavBar from '../components/NavBar';
-import UpcomingScreen from '../screens/UpcomingScreen';
+import KeysFeaturesScreen from '../screens/KeysFeaturesScreen';
 
 export type HomeStackParamList = {
   Home: undefined;
-  Upcoming: undefined;
+  KessFeatures: undefined;
 };
 
 const Home = createNativeStackNavigator<HomeStackParamList>();
@@ -19,7 +19,7 @@ const HomeNavigator = () => {
         title: 'PlagaDetect',
       }}>
       <Home.Screen name="Home" component={HomeScreen} />
-      <Home.Screen name="Upcoming" component={UpcomingScreen} />
+      <Home.Screen name="KessFeatures" component={KeysFeaturesScreen} />
     </Home.Navigator>
   );
 };

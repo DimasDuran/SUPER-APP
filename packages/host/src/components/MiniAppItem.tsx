@@ -1,30 +1,33 @@
-// MiniAppItem.tsx
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export type MiniApp = {
-    id: string;
-    name: string;
-    category: string;
-    icon: string;
-    color: string;
-    description: string;
-    disabled: boolean;
-  };
+  id: string;
+  name: string;
+  category: string;
+  icon: string;
+  color: string;
+  description: string;
+  disabled: boolean;
+};
 
 interface MiniAppItemProps {
   miniapp: MiniApp;
-  isFavorite: boolean;
-  onToggleFavorite: (id: string) => void;
-  onShowInfo: (miniapp: MiniApp) => void;
+  isFavorite?: boolean;
+  onShowInfo?: (miniapp: MiniApp) => void;
   onOpenApp: () => void;
 }
 
-const MiniAppItem: React.FC<MiniAppItemProps> = ({ miniapp, isFavorite, onToggleFavorite, onShowInfo, onOpenApp }) => {
+const MiniAppItem: React.FC<MiniAppItemProps> = ({
+  miniapp,
+  isFavorite,
+  onShowInfo,
+  onOpenApp,
+}) => {
   return (
-    <View style={styles.itemContainer}>
+    <View style={styles.itemWrapper}>
       <TouchableOpacity
         style={
           miniapp.disabled
@@ -33,44 +36,25 @@ const MiniAppItem: React.FC<MiniAppItemProps> = ({ miniapp, isFavorite, onToggle
         }
         onPress={onOpenApp}
         disabled={miniapp.disabled}>
-        <Icon name={miniapp.icon} size={45} color={miniapp.color} />
-        <Text style={styles.appIconText}>{miniapp.name}</Text>
+        <Icon name={miniapp.icon} size={30} color="#ffffff" />
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={{ position: 'absolute', top: 10, left: 84 }}
-        onPress={() => onShowInfo(miniapp)}>
-        <Icon name="information-circle-outline" size={24} color={miniapp.color} />
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.favoriteButton}
-        onPress={() => onToggleFavorite(miniapp.id)}>
-        <Icon
-          name={isFavorite ? 'heart' : 'heart-outline'}
-          size={24}
-          color={isFavorite ? 'red' : 'gray'}
-        />
-      </TouchableOpacity>
+      <Text style={styles.appIconText}>{miniapp.name}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  itemContainer: {
-    flexDirection: 'column',
+  itemWrapper: {
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-    width: '30%',
+    marginVertical: 15,
+    marginHorizontal: 10,
   },
   appIconContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100,
-    height: 100,
-    margin: 10,
+    width: 60,
+    height: 60,
     borderRadius: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -78,12 +62,11 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   appIconContainerBlocked: {
-    backgroundColor: '#dddddd',
+    backgroundColor: '#777',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 100,
-    height: 100,
-    margin: 10,
+    width: 60,
+    height: 60,
     borderRadius: 20,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -95,11 +78,6 @@ const styles = StyleSheet.create({
     color: '#000',
     marginTop: 8,
     textAlign: 'center',
-  },
-  favoriteButton: {
-    position: 'absolute',
-    top: 10,
-    left: 15,
   },
 });
 

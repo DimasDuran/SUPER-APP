@@ -246,6 +246,7 @@ export default env => {
         exposes: {
           './App': './src/navigation/MainNavigator',
           './UpcomingScreen': './src/screens/UpcomingScreen',
+          './useLastDetection': './src/hooks/useLastDetection'
         },
         /**
          * Shared modules are shared in the share scope.

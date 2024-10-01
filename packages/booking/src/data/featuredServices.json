@@ -1,20 +1,73 @@
 {
-    "data": [
-      {
-        "title": "Scan Plant",
-        "description": "Use your camera to scan plants for pest detection.",
-        "image": "https://images.pexels.com/photos/2749165/pexels-photo-2749165.jpeg?cs=srgb&dl=pexels-nc-farm-bureau-mark-2749165.jpg&fm=jpg"
-      },
-      {
-        "title": "Pest Control Tips",
-        "description": "Get expert tips on controlling pests in your crops.",
-        "image": "https://agroverdad.com.ar/wp-content/uploads/2021/05/prorindes-smn-crea-650x404.png"
-      },
-      {
-        "title": "Disease Management",
-        "description": "Learn how to manage plant diseases effectively.",
-        "image": "https://www.shutterstock.com/image-photo/cuttingedge-smart-farm-technology-meets-600nw-2490174165.jpg"
-      }
-    ]
-  }
-  
+  "data": [
+    {
+      "title": "Escanear Planta",
+      "description": "Utiliza tu cámara para escanear plantas en busca de plagas.",
+      "image": "https://images.pexels.com/photos/2749165/pexels-photo-2749165.jpeg?cs=srgb&dl=pexels-nc-farm-bureau-mark-2749165.jpg&fm=jpg",
+      "tutorialTitle": "Tutorial sobre Cómo Usar la Aplicación",
+      "bodyInformation": [
+        {
+          "step": "1. Abre la Aplicación",
+          "description": "Inicia la aplicación en tu dispositivo.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "2. Selecciona 'Escanear Planta'",
+          "description": "Desde el menú principal, elige la opción 'Escanear Planta' para acceder a la función de la cámara.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "3. Prepara la Planta",
+          "description": "Asegúrate de que la planta esté bien iluminada y libre de obstrucciones para un escaneo preciso.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "4. Enfoca Tu Cámara",
+          "description": "Coloca tu cámara para enfocar toda la planta, asegurándote de que esté dentro del encuadre.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "5. Inicia el Escaneo",
+          "description": "Toca el botón de escaneo para comenzar el proceso de detección. La aplicación analizará la planta en busca de plagas o enfermedades.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "6. Revisa los Resultados",
+          "description": "Una vez completado el escaneo, la aplicación mostrará los hallazgos, incluyendo cualquier plaga o enfermedad detectada junto con acciones recomendadas a seguir.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        },
+        {
+          "step": "7. Toma Acción",
+          "description": "Sigue las medidas sugeridas proporcionadas por la aplicación, como opciones de tratamiento o medidas preventivas para proteger tus plantas.",
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU="
+        }
+      ]
+    },    
+    {
+      "title": "Consejos para el Control de Plagas",
+      "description": "Obtén consejos de expertos sobre cómo controlar plagas en tus cultivos.",
+      "image": "https://agroverdad.com.ar/wp-content/uploads/2021/05/prorindes-smn-crea-650x404.png",
+      "tutorialTitle": "Consejos de Expertos sobre Cómo Controlar Plagas",
+      "bodyInformation":[
+        {
+          "image": "https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU=",
+          "description":"Implementar un control de plagas efectivo es crucial para mantener cultivos saludables. Aquí hay algunos consejos de expertos:\n\n1. Identifica la Plaga: Comienza identificando con precisión la plaga que afecta tus cultivos. Usa la función de escaneo de la aplicación para ayudar con la identificación. Algunas plagas comunes incluyen pulgones, ácaros y orugas, cada una de las cuales requiere un enfoque diferente de tratamiento.\n\n2. Elige Métodos de Tratamiento: Dependiendo de la plaga, selecciona los métodos de tratamiento apropiados:\n   - Soluciones Orgánicas: Considera usar aceite de neem, jabón insecticida o tierra de diatomeas para un enfoque ecológico. El aceite de neem, por ejemplo, es eficaz para combatir plagas como ácaros y pulgones sin dañar otros insectos beneficiosos.\n   - Pesticidas Químicos: Si es necesario, usa pesticidas químicos, pero sigue las pautas de seguridad y las dosis recomendadas. Evita el uso excesivo de productos químicos, ya que pueden dañar el ecosistema del cultivo y causar resistencia en las plagas.\n\n3. Medidas Preventivas:\n   - Rotación de Cultivos: Cambia el tipo de cultivos que siembras en un área particular cada temporada para interrumpir los ciclos de vida de las plagas. Esto también ayuda a mejorar la salud del suelo.\n   - Cultivos Compañeros: Siembra cultivos compatibles juntos para disuadir naturalmente a las plagas. Por ejemplo, las caléndulas pueden repeler nematodos, y el ajo puede mantener alejados a los ácaros.\n   - Mantén la Higiene del Jardín: Elimina regularmente malezas, hojas caídas y escombros para minimizar los hábitats de plagas. La acumulación de residuos en el suelo puede atraer insectos no deseados que se esconden y reproducen allí.\n   - Uso de Trampas y Barreras: Coloca trampas pegajosas o barreras físicas para capturar y evitar que las plagas accedan a tus plantas, reduciendo la infestación de manera natural.\n\n4. Monitorea Regularmente: Mantente atento a tus cultivos para detectar signos de daño por plagas o reinfestación. Revisa debajo de las hojas, el tallo y las flores para ver si hay signos de mordeduras, manchas o insectos presentes. Una acción rápida es crucial para evitar una infestación masiva que pueda comprometer la salud de la planta.\n\n5. Fomenta la Biodiversidad: Introduce insectos beneficiosos como mariquitas, crisopas o avispas parásitas que ayuden a controlar las plagas de forma natural. Estas especies depredadoras se alimentan de muchas plagas que dañan las plantas."
+        }
+      ]
+    },
+    
+    {
+      "title": "Manejo de Enfermedades",
+      "description": "Aprende a manejar las enfermedades de las plantas de manera efectiva.",
+      "image": "https://www.shutterstock.com/image-photo/cuttingedge-smart-farm-technology-meets-600nw-2490174165.jpg",
+      "tutorialTitle": "Aprende a Manejar Enfermedades de las Plantas",
+      "bodyInformation": [
+        {
+          "image":"https://media.istockphoto.com/id/1367534666/vector/set-of-green-leaf-icons-leaves-icon-leaves-of-trees-and-plants-collection-green-leaf.jpg?s=612x612&w=0&k=20&c=tx2ZlrXMzqsQs6PkUlDtUswwUynkLucfL5iUmHFBlHU=",
+          "description":"Manejar las enfermedades de las plantas de manera efectiva requiere vigilancia y conocimiento. Aquí hay estrategias clave:\n\n1. Inspecciones Regulares: Inspecciona frecuentemente tus plantas en busca de signos de enfermedad, como decoloración, marchitamiento o manchas inusuales en las hojas. Identificar problemas tempranamente puede evitar la propagación.\n\n2. Utiliza Variedades Resistentes a Enfermedades: Elige variedades de plantas conocidas por su resistencia a enfermedades locales. Esto puede reducir significativamente el riesgo de infección y mejorar la producción en el largo plazo.\n\n3. Prácticas de Riego Adecuadas: Riega tus plantas por la mañana temprano para permitir que las hojas se sequen durante el día, reduciendo la humedad que puede promover el crecimiento de hongos y bacterias. Considera el riego por goteo para evitar el contacto directo del agua con las hojas.\n\n4. Técnicas de Fertilización: Aplica fertilizantes de manera equilibrada. La sobre-fertilización, especialmente con nitrógeno, puede llevar a un crecimiento rápido que hace a las plantas más susceptibles a enfermedades. Un análisis del suelo puede ayudarte a determinar las necesidades exactas de nutrientes.\n\n5. Poda e Higiene: Retira inmediatamente cualquier hoja, fruto o rama afectada por enfermedades. Mantén las herramientas de poda limpias y desinfectadas para evitar la propagación de patógenos entre plantas.\n\n6. Implementa la Rotación de Cultivos: Cambiar la ubicación de los cultivos cada temporada de crecimiento ayuda a interrumpir los ciclos de vida de enfermedades transmitidas por el suelo. Además, los cultivos de cobertura pueden ayudar a mejorar la salud del suelo y reducir la presión de enfermedades.\n\n7. Controla la Densidad de Plantas: Plantar demasiado cerca puede reducir el flujo de aire y aumentar la humedad, creando condiciones propicias para las enfermedades. Mantén una distancia adecuada entre las plantas para garantizar una buena ventilación.\n\n8. Investiga Opciones de Tratamiento: Si detectas una enfermedad, considera fungicidas y tratamientos biológicos específicos. Los controles biológicos, como el uso de microorganismos beneficiosos, pueden ser eficaces y ecológicamente sostenibles."
+        }
+      ]
+    }
+    
+  ]
+}

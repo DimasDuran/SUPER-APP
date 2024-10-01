@@ -1,5 +1,8 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+import android.os.Bundle; // Añadir esto
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView; // Añadir esto
+
 
 import com.android.build.OutputFile
 

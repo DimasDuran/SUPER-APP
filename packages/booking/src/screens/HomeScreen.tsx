@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, ScrollView, StyleSheet, View, FlatList, Text } from 'react-native';
+import { Modal, ScrollView, StyleSheet, View, FlatList, Text, Image } from 'react-native';
 import { Card, Button, Divider } from 'react-native-paper';
-import featuredServices from '../data/featuredServices.json';
+import featuredServices from "../data/featuredServices.json"
 import ChartComponent from '../components/ChartComponent';
 import renderScaner from '../components/RenderScaner';
+import CardFeatures from '../components/CardFeatures';
 import useStore from '../hooks/useStoredDta';
+import useLastDetection from '../hooks/useLastDetection';
 
 interface ModalData {
   name: string;
@@ -16,25 +18,28 @@ const HomeScreen = () => {
   const { imageResults, loadResults } = useStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState<ModalData | null>(null);
+  const { loadDetections,lastDetections} = useLastDetection()
 
-  // Cargar los resultados iniciales y escuchar cambios
   useEffect(() => {
     const interval = setInterval(() => {
-      loadResults(); // Llamar a la función para cargar los datos en intervalos
-    }, 3000); // Ajusta el intervalo a lo que necesites (en milisegundos)
+      loadResults(); 
+      loadDetections()
+    }, 3000);
 
-    return () => clearInterval(interval); // Limpiar el intervalo cuando el componente se desmonte
+    return () => clearInterval(interval); 
   }, [loadResults]);
 
   const handleViewReport = (item: ModalData) => {
-    setModalData(item); // Establece los datos para el modal
-    setModalVisible(true); // Muestra el modal
+    setModalData(item); 
+    setModalVisible(true); 
   };
 
   const closeModal = () => {
     setModalVisible(false);
     setModalData(null);
   };
+
+  console.log("Mi actividad ====>",{lastDetections})
 
   return (
     <ScrollView style={styles.container}>
@@ -47,10 +52,7 @@ const HomeScreen = () => {
         showsHorizontalScrollIndicator={false}
         data={featuredServices.data}
         renderItem={({ item, index }) => (
-          <Card mode="contained" style={{ backgroundColor: '#fff' }}>
-            <Card.Cover source={{ uri: `${item.image}?${index}` }} />
-            <Card.Title title={`${item.title}`} subtitle={item.description} />
-          </Card>
+          <CardFeatures item={item} index={index}/>
         )}
         ItemSeparatorComponent={() => <Divider style={styles.divider} />}
         contentContainerStyle={styles.contentContainer}
@@ -88,6 +90,7 @@ const HomeScreen = () => {
           <View style={styles.modalContainer}>
             {modalData && (
               <>
+              {/* <Image /> */}
                 <Text style={styles.modalTitle}>Scan Details</Text>
                 <Text style={styles.modalText}>Name: {modalData.class}</Text>
                 <Text style={styles.modalText}>Date: {modalData.date}</Text>

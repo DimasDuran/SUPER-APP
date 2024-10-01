@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MarketplaceScreen from '../screens/MarketplaceScreen';
+import MarketplaceScreen from '../screens/NotificationScreen';
 import NavBar from '../components/NavBar';
 
 export type MarketplaceStackParamList = {
@@ -9,7 +9,7 @@ export type MarketplaceStackParamList = {
 
 const Home = createNativeStackNavigator<MarketplaceStackParamList>();
 
-const MarketplaceNavigator = () => {
+const NotificationNativator = () => {
   return (
     <Home.Navigator
       screenOptions={{
@@ -20,4 +20,4 @@ const MarketplaceNavigator = () => {
   );
 };
 
-export default MarketplaceNavigator;
+export default NotificationNativator;

@@ -1,151 +1,125 @@
-import React from 'react';
-import {
-  FlatList,
-  ListRenderItem,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
-import {CompositeScreenProps} from '@react-navigation/native';
-import {MaterialBottomTabScreenProps} from '@react-navigation/material-bottom-tabs';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {
-  Avatar,
-  Card,
-  Button,
-  Divider,
-  Text,
-  Title,
-  Paragraph,
-} from 'react-native-paper';
-import {TabsParamList} from '../navigation/TabsNavigator';
-import {HomeStackParamList} from '../navigation/HomeNavigator';
-import upcomingBookings from '../data/upcomingBookings.json';
-import newProducts from '../data/newProducts.json';
-import recentNews from '../data/recentNews.json';
-import recentArticles from '../data/recentArticles.json';
+import React, { useEffect, useState } from 'react';
+import { FlatList, ScrollView, StyleSheet, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Text, Modal, Portal, Provider } from 'react-native-paper';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
-type Props = CompositeScreenProps<
-  NativeStackScreenProps<HomeStackParamList>,
-  MaterialBottomTabScreenProps<TabsParamList, 'HomeNavigator'>
+import Bannner from '../components/Banner';
+import MiniAppItem from '../components/MiniAppItem';
+import CardPromo from '../components/CardPromo';
+import useAppStore from '../hooks/useRecentAppsStore';
+import miniapps from '../data/minisapps.json';
+
+type MiniApp = {
+  id: string;
+  name: string;
+  category: string;
+  icon: string;
+  color: string;
+  description: string;
+  disabled: boolean;
+};
+
+type RootStackParamList = {
+  Marketplace: undefined;
+  PlagaGuard: undefined;
+};
+
+type MarketplaceScreenNavigationProp = NativeStackNavigationProp<
+  RootStackParamList,
+  'Marketplace'
 >;
 
-const renderUpcoming = ({item}: any) => (
-  <Card mode="contained">
-    <Card.Title
-      titleVariant="titleMedium"
-      subtitleVariant="bodyMedium"
-      title={`${item.title} • ${item.provider}`}
-      subtitle={`${item.date} ${item.time}`}
-      left={props => <Avatar.Icon {...props} icon="calendar" />}
-    />
-    <Card.Actions>
-      <Button mode="text" onPress={() => {}}>
-        Cancel
-      </Button>
-      <Button mode="contained" onPress={() => {}}>
-        Reschedule
-      </Button>
-    </Card.Actions>
-  </Card>
-);
+const HomeScreen = () => {
+  const { recentApps, addRecentApp, loadRecentApps } = useAppStore();
+  const navigation = useNavigation<MarketplaceScreenNavigationProp>();
+  const [selectedMiniapp, setSelectedMiniapp] = useState<MiniApp | null>(null);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-const renderProduct: ListRenderItem<any> = ({item, index}) => (
-  <Card mode="contained" style={styles.cardWidth}>
-    <Card.Cover source={{uri: `${item.image}?${index}`}} />
-    <Card.Content>
-      <Title>{`${item.name} • $${item.price}`}</Title>
-      <Paragraph numberOfLines={1}>{item.description}</Paragraph>
-    </Card.Content>
-    <Card.Actions>
-      <Button onPress={() => {}}>To Wishlist</Button>
-      <Button onPress={() => {}}>Buy</Button>
-    </Card.Actions>
-  </Card>
-);
+  useEffect(() => {
+    loadRecentApps();
+  }, [loadRecentApps]);
 
-const renderArticle: ListRenderItem<any> = ({item, index}) => (
-  <Card mode="contained" style={styles.cardWidth}>
-    <Card.Cover source={{uri: `${item.image}?${index}`}} />
-    <Card.Content>
-      <Title>{item.title}</Title>
-      <Paragraph numberOfLines={3}>{item.content}</Paragraph>
-    </Card.Content>
-  </Card>
-);
+  const showInfo = (miniapp: MiniApp) => {
+    setSelectedMiniapp(miniapp);
+    setModalVisible(true);
+  };
 
-const renderDivider = () => <Divider style={styles.divider} />;
+  const handleOpenApp = async (miniapp: any) => {
+    addRecentApp(miniapp.id);
+    try {
+      switch (miniapp?.id) {
+        case '1':
+          navigation.navigate('PlagaGuard');
+          break;
+        case '2':
+        case '3':
+          navigation.navigate('Marketplace');
+          break;
+        default:
+          console.warn('No navigation case for this mini app');
+      }
+    } catch (error) {
+      console.error('Error navigating to app:', error);
+    }
+  };
 
-const HomeScreen = ({navigation}: Props) => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <Text variant="titleLarge" style={styles.headerTitle}>
-          Aplicaciones recientes
-        </Text>
-        <Button
-          mode="contained-tonal"
-          onPress={() => navigation.navigate('Upcoming')}>
-          See All
-        </Button>
-      </View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={upcomingBookings.data}
-        renderItem={renderUpcoming}
-        ItemSeparatorComponent={renderDivider}
-        contentContainerStyle={styles.contentContainer}
-      />
-      <View style={styles.header}>
-        <Text variant="titleLarge" style={styles.headerTitle}>
-          Nuevos productos
-        </Text>
-        <Button mode="contained-tonal" onPress={() => {}}>
-          See All
-        </Button>
-      </View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={newProducts.data}
-        renderItem={renderProduct}
-        ItemSeparatorComponent={renderDivider}
-        contentContainerStyle={styles.contentContainer}
-      />
-      <View style={styles.header}>
-        <Text variant="titleLarge" style={styles.headerTitle}>
-          Noticias Agricolas
-        </Text>
-        <Button mode="contained-tonal" onPress={() => {}}>
-          See All
-        </Button>
-      </View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={recentNews.data}
-        renderItem={renderArticle}
-        ItemSeparatorComponent={renderDivider}
-        contentContainerStyle={styles.contentContainer}
-      />
-      <View style={styles.header}>
-        <Text variant="titleLarge" style={styles.headerTitle}>
-          Articulos Recientes
-        </Text>
-        <Button mode="contained-tonal" onPress={() => {}}>
-          See All
-        </Button>
-      </View>
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={recentArticles.data}
-        renderItem={renderArticle}
-        ItemSeparatorComponent={renderDivider}
-        contentContainerStyle={styles.contentContainer}
-      />
-    </ScrollView>
+    <Provider>
+      <ScrollView style={styles.container}>
+        <Bannner />
+        <View style={styles.header}>
+          <Text variant="titleLarge" style={styles.headerTitle}>
+            Apps Agrícolas
+          </Text>
+          <Button mode="contained-tonal" style={styles.btnall} onPress={() => {}}>
+           <Text style={styles.btnalltext}> Ver Todas</Text>
+          </Button>
+        </View>
+
+        <FlatList
+          data={miniapps}
+          keyExtractor={(item) => item.id}
+          numColumns={3}
+          contentContainerStyle={styles.flatListContent}
+          columnWrapperStyle={styles.columnWrapper}
+          renderItem={({ item }) => (
+            <MiniAppItem
+              miniapp={item}
+              onShowInfo={showInfo}
+              onOpenApp={() => handleOpenApp(item)}
+            />
+          )}
+          style={styles.flatList}
+        />
+
+        <View style={styles.promoContainer}>
+          <CardPromo />
+        </View>
+
+        <Portal>
+          <Modal
+            visible={modalVisible}
+            onDismiss={() => setModalVisible(false)}
+            contentContainerStyle={styles.modalContainer}>
+            {selectedMiniapp && (
+              <>
+                <Text style={styles.modalTitle}>{selectedMiniapp.name}</Text>
+                <Text style={styles.modalDescription}>
+                  {selectedMiniapp.description}
+                </Text>
+                <Button
+                  mode="text"
+                  style={{ width: '40%', backgroundColor: selectedMiniapp.color }}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={{ color: '#fff' }}>Cerrar</Text>
+                </Button>
+              </>
+            )}
+          </Modal>
+        </Portal>
+      </ScrollView>
+    </Provider>
   );
 };
 
@@ -153,13 +127,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-  },
-  contentContainer: {
-    paddingHorizontal: 16,
-  },
-  divider: {
-    backgroundColor: 'transparent',
-    width: 16,
   },
   header: {
     padding: 16,
@@ -169,8 +136,42 @@ const styles = StyleSheet.create({
   headerTitle: {
     flex: 1,
   },
-  cardWidth: {
-    width: 270,
+  flatList: {
+    flexGrow: 0,
+  },
+  flatListContent: {
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  columnWrapper: {
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  promoContainer: {
+    marginTop: 20,
+    paddingHorizontal: 16,
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    padding: 20,
+    margin: 20,
+    borderRadius: 10,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalDescription: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  btnall: {
+    backgroundColor: '#000',
+  },
+  btnalltext: {
+    color: '#fff',
   },
 });
 

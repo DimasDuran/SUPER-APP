@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { View, Image, Alert, Platform, ActivityIndicator,Linking, PermissionsAndroid, Modal, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
+import React, { useEffect, useState,useRef,useMemo } from 'react';
+import { View, Image, Alert,Button ,Platform, ActivityIndicator,Linking, PermissionsAndroid, Modal, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Text } from 'react-native-paper';
-import { updateClassCount,updateRequestCount } from '../utils/storageUtils'; 
+import { useNavigation } from '@react-navigation/native';
 import saveResultToStorage from '../utils/saveResultToStorage'
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import apiClient from '../../api/apiClient';
+import useCameraStore from '../hooks/CameraStore';
+import useLastDetection from '../hooks/useStoredDta';
 
 
 interface Treatment {
@@ -34,17 +36,26 @@ interface Typedata {
   class: string;
 }
 
-const CalendarScreen = () => {
+export type Nav = {
+  HomeNavigator:undefined
+}
+
+const DetectScreen = () => {
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [result, setResult] = useState<Typedata | null>(null);
   const [modalVisible, setModalVisible] = useState(true);
   const [modelaVisibleProgres, setModelaVisibleProgres] = useState(false);
   const [progress, setProgress] = useState(new Animated.Value(0));
   const [isProcessing, setIsProcessing] = useState(false);
+  const { isCameraActive,setCameraActive} = useCameraStore()
+  const navigate = useNavigation()
 
-  console.log(modelaVisibleProgres)
+
+  // const {addResult } = saveResultToStorage()
+  const { addResult} = useLastDetection()
+
   useEffect(() => {
-    setModalVisible(true);
+    setCameraActive(true);
   }, []);
 
   const requestCameraPermission = async () => {
@@ -54,22 +65,28 @@ const CalendarScreen = () => {
           PermissionsAndroid.PERMISSIONS.CAMERA,
           {
             title: 'Camera Permission',
-            message: 'App needs camera permission',
+            message: 'App needs camera permission to take pictures.',
             buttonNeutral: 'Ask Me Later',
             buttonNegative: 'Cancel',
             buttonPositive: 'OK',
           }
         );
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          Alert.alert('Permission denied', 'Camera permission is required to take pictures.');
+        }
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
-        console.warn(err);
+        console.warn('Permission error', err);
+        Alert.alert('Error', 'Failed to request camera permission.');
         return false;
       }
     } else {
-      return true;
+      return true; // iOS has automatic permission handling
     }
   };
+  
 
+ 
   const openCamera = async () => {
     const hasPermission = await requestCameraPermission();
     if (!hasPermission) {
@@ -90,22 +107,29 @@ const CalendarScreen = () => {
     );
   };
 
+
+
   const handleResponse = (response: ImagePickerResponse) => {
     if (response.didCancel) {
       console.log('User cancelled image picker');
     } else if (response.errorCode) {
       console.error('Error: ', response.errorMessage);
+      Alert.alert('Error', 'There was an issue accessing the image picker.');
     } else if (response.assets && response.assets.length > 0) {
       const imageUri = response.assets[0].uri || null;
-      setImageUri(imageUri);
-      setModalVisible(false);
       if (imageUri) {
+        setImageUri(imageUri);
+        setCameraActive(false);
         uploadImage(imageUri);
+      } else {
+        Alert.alert('Error', 'Invalid image data.');
       }
+    } else {
+      Alert.alert('Error', 'No image selected.');
     }
   };
+  
 
- 
   const uploadImage = async (uri: string) => {
     const formData = new FormData();
     formData.append('file', {
@@ -119,36 +143,39 @@ const CalendarScreen = () => {
     animateProgress();
   
     try {
-      const response = await apiClient.post('/predict', formData); 
-      const result = response; 
-      setResult(result);
-      saveResultToStorage(result);
-      console.log(response)
-  
-      const className = result.class; 
-      const classCount = await updateClassCount(className);
-      console.log(`Class ${className} count:`, classCount);
-  
+      const response = await apiClient.post('/predict', formData);
+      if (response.data && response.data.class) {
+        const result = response.data;
+        setResult(result);
+        const detection = { imageUri: uri, result: result };
+        addResult(result)
+        //No esta gurdando bien los datos
+        // [21:44:24.546Z][Console] Mi actividad ====> {"modalData": {"class": undefined, "date": "2024-09-28-15:43", "imagenUri": undefined, "name": undefined}} 
+
+      
+         
+      } else {
+        throw new Error('Invalid response format');
+      }
     } catch (error) {
       console.error('Error uploading image:', error);
-      Alert.alert('Error', 'Failed to upload the image');
+      Alert.alert('Error', 'Failed to upload the image or process the response.');
     } finally {
       setModelaVisibleProgres(false);
       setIsProcessing(false);
-      setProgress(new Animated.Value(0)); 
-      setTimeout(() => setModelaVisibleProgres(false), 500); 
+      setProgress(new Animated.Value(0));
     }
   };
   
+
 
   const animateProgress = () => {
     Animated.timing(progress, {
       toValue: 100,
       duration: 5000,
-      useNativeDriver: false,
+      useNativeDriver: false, // Cambia a true si no necesitas que afecte el layout
     }).start(() => {
-      // Reset progress after animation completes
-      setProgress(new Animated.Value(0));
+      setProgress(new Animated.Value(0)); // Reset progress after completion
     });
   };
 
@@ -156,6 +183,11 @@ const CalendarScreen = () => {
     inputRange: [0, 90],
     outputRange: ['3%', '90%'],
   });
+
+  const gotTohome = () =>{
+    // navigate.navigate("")
+    setCameraActive(false)
+  }
 
   return (
     <View style={{ flex: 1,backgroundColor:'#fff' ,justifyContent: 'center', alignItems: 'center' }}>
@@ -177,7 +209,9 @@ const CalendarScreen = () => {
   <ScrollView style={styles.resultContainer}>
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Class: {result?.class.replace(/_/g, ' ')}</Text>
-      <Text style={styles.cardText}>Confidence: <Text style={styles.confidende}>{(result?.confidence * 100).toFixed(1)}%</Text></Text>
+      <Text style={styles.cardText}>
+     Confidence: <Text style={styles.confidende}>{(result?.confidence * 100).toFixed(2)}%</Text>
+</Text>
     </View>
 
     {/* Descripción */}
@@ -255,10 +289,11 @@ const CalendarScreen = () => {
         ))}
       </View>
     )}
+
   </ScrollView>
 )}  
     {/* Modal for image selection */}
-      <Modal transparent={true} visible={modalVisible} animationType="slide" style={{backgroundColor:"transparent"}}>
+      <Modal transparent={true} visible={isCameraActive} animationType="slide" style={{backgroundColor:"transparent"}}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Select Source</Text>
@@ -269,6 +304,10 @@ const CalendarScreen = () => {
             <TouchableOpacity style={styles.button} onPress={openGallery}>
               <Icon name="photo" size={23} color="#fff" />
               <Text style={styles.buttonText}> Open Gallery</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={gotTohome}>
+              <Icon name="photo" size={23} color="#fff" />
+              <Text style={styles.buttonText}>Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -313,7 +352,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: '#fff',
   
   },
   modalContent: {
@@ -354,7 +393,7 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 10,
     width:18,
-    backgroundColor: '#040504',
+    backgroundColor: '#34A853',
     borderRadius: 5,
     marginTop: 10,
     position: 'absolute',
@@ -371,8 +410,13 @@ const styles = StyleSheet.create({
   confidende:{
     fontWeight:'600',
     color:'#34A853'
-  }
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
 });
 
-export default CalendarScreen;
+export default DetectScreen;
+
 

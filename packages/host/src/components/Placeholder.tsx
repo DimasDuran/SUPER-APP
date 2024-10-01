@@ -11,7 +11,7 @@ type Props = {
 const Placeholder: FC<Props> = ({label, icon}) => {
   return (
     <SafeAreaView style={styles.container}>
-      <Icon size={96} color={MD3Colors.primary20} name={icon} />
+      <Icon size={96} color='#000' name={icon} />
       <Text style={styles.text}>{label}</Text>
     </SafeAreaView>
   );
@@ -22,10 +22,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor:'#fff'
   },
   text: {
     fontSize: 24,
-    color: MD3Colors.primary20,
+    color:"#000",
   },
 });
 

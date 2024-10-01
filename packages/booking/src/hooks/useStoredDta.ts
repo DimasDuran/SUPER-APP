@@ -13,6 +13,8 @@ interface StoreState {
   addResult: (newResult: ImageResult) => Promise<void>;
 }
 
+const MAX_RESULTS = 3; // Máximo número de resultados
+
 const useStore = create<StoreState>((set) => ({
   imageResults: [],
 
@@ -21,7 +23,7 @@ const useStore = create<StoreState>((set) => ({
     try {
       const storedResults = await AsyncStorage.getItem('imageResults');
       const parsedResults: ImageResult[] = storedResults ? JSON.parse(storedResults) : [];
-      
+
       // Actualizar el estado solo si hay nuevos datos
       set({ imageResults: parsedResults });
     } catch (error) {
@@ -34,7 +36,12 @@ const useStore = create<StoreState>((set) => ({
     try {
       // Obtener los resultados almacenados
       const storedResults = await AsyncStorage.getItem('imageResults');
-      const parsedResults: ImageResult[] = storedResults ? JSON.parse(storedResults) : [];
+      let parsedResults: ImageResult[] = storedResults ? JSON.parse(storedResults) : [];
+
+      // Si hay más de 5 elementos, eliminar los más antiguos (los primeros del array)
+      if (parsedResults.length >= MAX_RESULTS) {
+        parsedResults = parsedResults.slice(parsedResults.length - (MAX_RESULTS - 1)); // Mantener solo los últimos 4
+      }
 
       // Actualizar los resultados con el nuevo dato
       const updatedResults = [...parsedResults, newResult];
