@@ -10,7 +10,7 @@ const Account = React.lazy(() =>
 const AccountScreen = () => {
   return (
     <ErrorBoundary name="AccountScreen">
-      <React.Suspense fallback={<Placeholder label="Account" icon="account" />}>
+      <React.Suspense fallback={<Placeholder label="Chatboot" icon="account" />}>
         <Account />
       </React.Suspense>
     </ErrorBoundary>

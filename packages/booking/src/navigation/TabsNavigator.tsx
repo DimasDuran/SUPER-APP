@@ -25,8 +25,8 @@ const TabsNavigator = () => {
         shadowOpacity: 0,
         shadowColor: 'transparent', 
       }}
-      activeColor="#388E3C" 
-      inactiveColor="#A5D6A7" 
+      activeColor="#000" 
+      inactiveColor="#4a4a4a" 
     >
       <Tabs.Screen
         name="HomeNavigator"

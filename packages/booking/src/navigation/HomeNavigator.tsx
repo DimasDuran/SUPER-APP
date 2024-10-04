@@ -16,7 +16,7 @@ const HomeNavigator = () => {
     <Home.Navigator
       screenOptions={{
         header: NavBar,
-        title: 'PlagaDetect',
+        title: 'PlagaGuard',
       }}>
       <Home.Screen name="Home" component={HomeScreen} />
       <Home.Screen name="KessFeatures" component={KeysFeaturesScreen} />
