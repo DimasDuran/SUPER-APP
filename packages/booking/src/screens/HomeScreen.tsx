@@ -1,37 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, ScrollView, StyleSheet, View, FlatList, Text, Image } from 'react-native';
-import { Card, Button, Divider } from 'react-native-paper';
-import featuredServices from "../data/featuredServices.json"
+import React, { useState } from 'react';
+import { Modal, ScrollView, StyleSheet, View, FlatList, Image } from 'react-native';
+import { Card, Button, Divider,Text } from 'react-native-paper';
+import featuredServices from "../data/featuredServices.json";
 import ChartComponent from '../components/ChartComponent';
-import renderScaner from '../components/RenderScaner';
+import PlaguePercentageChartComponent from '../components/ChartComponentPest';
 import CardFeatures from '../components/CardFeatures';
-import useStore from '../hooks/useStoredDta';
-import useLastDetection from '../hooks/useLastDetection';
+import usePredictionStorage from '../hooks/usePredictionStorage';
+import { PredictionResult } from '../hooks/storagePrediction';
+import RenderScaner from '../components/RenderScaner';
+import translateClassName from '../utils/traslateClass';
+import formatPrediction from '../utils/formatpredict';
 
 interface ModalData {
-  name: string;
-  date: string;
   class: string;
+  date: string;
+  imageUri: any;
+  confidence:number
 }
 
 const HomeScreen = () => {
-  const { imageResults, loadResults } = useStore();
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState<ModalData | null>(null);
-  const { loadDetections,lastDetections} = useLastDetection()
+  const { predictionData } = usePredictionStorage();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      loadResults(); 
-      loadDetections()
-    }, 3000);
-
-    return () => clearInterval(interval); 
-  }, [loadResults]);
-
-  const handleViewReport = (item: ModalData) => {
-    setModalData(item); 
-    setModalVisible(true); 
+  const handleViewReport = (item: PredictionResult) => {
+    setModalData({ class: item.result.class, date: item.date, imageUri: item.imageUri, confidence: item.result.confidence });
+    setModalVisible(true);
   };
 
   const closeModal = () => {
@@ -39,7 +33,8 @@ const HomeScreen = () => {
     setModalData(null);
   };
 
-  console.log("Mi actividad ====>",{lastDetections})
+  console.log('Datos almacenados desde el store');
+  console.log("====================================", { predictionData });
 
   return (
     <ScrollView style={styles.container}>
@@ -52,7 +47,7 @@ const HomeScreen = () => {
         showsHorizontalScrollIndicator={false}
         data={featuredServices.data}
         renderItem={({ item, index }) => (
-          <CardFeatures item={item} index={index}/>
+          <CardFeatures item={item} index={index} />
         )}
         ItemSeparatorComponent={() => <Divider style={styles.divider} />}
         contentContainerStyle={styles.contentContainer}
@@ -63,23 +58,20 @@ const HomeScreen = () => {
         <Text style={styles.headerTitle}>Number of analytical shots during periods</Text>
       </View>
       <ChartComponent />
+      <PlaguePercentageChartComponent />
 
-      {/* Sección de Reportes Recientes */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Recent Scans</Text>
+        <Text style={styles.headerTitle}>Últimos Reportes</Text>
       </View>
       <FlatList
+        data={predictionData}
         horizontal
-        showsHorizontalScrollIndicator={false}
-        data={imageResults.slice(-3)}
-        renderItem={({ item, index }) =>
-          renderScaner({ item, index, onViewReport: handleViewReport })
-        }
-        ItemSeparatorComponent={() => <Divider style={styles.divider} />}
-        contentContainerStyle={styles.contentContainer}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item, index }) => (
+          <RenderScaner item={item} index={index} onViewReport={handleViewReport} />
+        )}
       />
 
-      {/* Modal para mostrar detalles */}
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -90,14 +82,22 @@ const HomeScreen = () => {
           <View style={styles.modalContainer}>
             {modalData && (
               <>
-              {/* <Image /> */}
-                <Text style={styles.modalTitle}>Scan Details</Text>
-                <Text style={styles.modalText}>Name: {modalData.class}</Text>
-                <Text style={styles.modalText}>Date: {modalData.date}</Text>
+              <Text variant='titleLarge'>Detalle del reporte.</Text>
+              <View style={styles.conatinerImage}>
+              <Image 
+                  source={{ uri: modalData.imageUri }} 
+                  style={styles.image} 
+                  resizeMode="contain" // Ajusta cómo se muestra la imagen
+                />
+              </View>
+                <Text style={styles.modalTitle}>Datos del Análisis:</Text>
+                <Text style={styles.modalText}>Tipo de plaga: {translateClassName(modalData.class)}</Text>
+                <Text style={styles.modalText}>Porcentaje de Confianza:<Text style={styles.modalTextPrediction}> {formatPrediction(modalData.confidence)}</Text></Text> 
+                <Text style={styles.modalText}>Fecha del Reporte: {modalData.date}</Text>
               </>
             )}
-            <Button mode="contained" onPress={closeModal} buttonColor="#388E3C" style={styles.ntnclose}>
-              Close
+            <Button mode="contained" onPress={closeModal} buttonColor="#040604" style={styles.ntnclose}>
+              Cerrar
             </Button>
           </View>
         </View>
@@ -149,9 +149,29 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
   },
+  modalTextPrediction:{
+     fontSize:16,
+     marginBottom:10,
+     color:'#00e532',
+     fontWeight:'600'
+  },
   ntnclose: {
     width: '30%',
+    marginTop:12
   },
+  image: {
+    height: 150, 
+    width: 160, 
+    marginBottom: 10, 
+    borderRadius:10,
+
+  },
+  conatinerImage:{
+    alignItems:'center',
+    alignContent:'center',
+    margin:12
+  }
+
 });
 
 export default HomeScreen;

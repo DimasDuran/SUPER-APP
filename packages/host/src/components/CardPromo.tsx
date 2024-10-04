@@ -5,19 +5,19 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type RootStackParamList = {
-  Blog: undefined;
+  BlogNav: undefined;
 };
 
 type BlogsScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
-  'Blog'
+  'BlogNav'
 >;
 
 const CardPromo: React.FC = () => {
   const navigation = useNavigation<BlogsScreenNavigationProp>();
 
   const handlePress = () => {
-    navigation.navigate('Blog');
+    navigation.navigate('BlogNav');
   };
 
   return (

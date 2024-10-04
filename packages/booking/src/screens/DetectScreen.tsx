@@ -1,13 +1,14 @@
 import React, { useEffect, useState,useRef,useMemo } from 'react';
-import { View, Image, Alert,Button ,Platform, ActivityIndicator,Linking, PermissionsAndroid, Modal, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
+import { View, Image, Alert,FlatList,Button ,Platform, ActivityIndicator,Linking, PermissionsAndroid, Modal, TouchableOpacity, StyleSheet, ScrollView, Animated } from 'react-native';
 import { ImagePickerResponse, launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { Text } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import saveResultToStorage from '../utils/saveResultToStorage'
 import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import apiClient from '../../api/apiClient';
 import useCameraStore from '../hooks/CameraStore';
-import useLastDetection from '../hooks/useStoredDta';
+import usePredictionStorage from '../hooks/usePredictionStorage';
+import { PredictionResult } from '../hooks/storagePrediction';
+import DiseaseCard from '../components/ DiseaseCard';
 
 
 interface Treatment {
@@ -25,10 +26,12 @@ interface Recommendations {
   related_climatic_conditions: string[];
   precautions: string[];
   testimonials: { comment: string; user: string; rating: number }[];
+  disease_images:{ image_url:string }
   scientific_articles: { title: string; url: string }[];
   tutorial_videos: { title: string; url: string }[];
   general_tips:string
 }
+
 
 interface Typedata {
   recommendations: Recommendations;
@@ -49,10 +52,7 @@ const DetectScreen = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const { isCameraActive,setCameraActive} = useCameraStore()
   const navigate = useNavigation()
-
-
-  // const {addResult } = saveResultToStorage()
-  const { addResult} = useLastDetection()
+  const { saveData} = usePredictionStorage()
 
   useEffect(() => {
     setCameraActive(true);
@@ -147,13 +147,11 @@ const DetectScreen = () => {
       if (response.data && response.data.class) {
         const result = response.data;
         setResult(result);
-        const detection = { imageUri: uri, result: result };
-        addResult(result)
-        //No esta gurdando bien los datos
-        // [21:44:24.546Z][Console] Mi actividad ====> {"modalData": {"class": undefined, "date": "2024-09-28-15:43", "imagenUri": undefined, "name": undefined}} 
-
-      
-         
+        const predictionResult: PredictionResult = {
+          imageUri: uri,
+          result: response.data,
+        };
+        saveData(predictionResult)         
       } else {
         throw new Error('Invalid response format');
       }
@@ -167,7 +165,7 @@ const DetectScreen = () => {
     }
   };
   
-
+  console.log("***********************",result?.recommendations.disease_images.description)
 
   const animateProgress = () => {
     Animated.timing(progress, {
@@ -208,7 +206,7 @@ const DetectScreen = () => {
 {result && (
   <ScrollView style={styles.resultContainer}>
     <View style={styles.card}>
-      <Text style={styles.cardTitle}>Class: {result?.class.replace(/_/g, ' ')}</Text>
+      <Text style={styles.cardTitle}>Tipo de plaga: {result?.class.replace(/_/g, ' ')}</Text>
       <Text style={styles.cardText}>
      Confidence: <Text style={styles.confidende}>{(result?.confidence * 100).toFixed(2)}%</Text>
 </Text>
@@ -221,6 +219,9 @@ const DetectScreen = () => {
         <Text style={styles.cardText}>{result.recommendations.description}</Text>
       </View>
     )}
+   {result && result.recommendations.disease_images && (
+  <DiseaseCard diseaseImages={result.recommendations.disease_images} />
+)}
 
     {/* Precautions */}
     {result.recommendations?.precautions && result.recommendations.precautions.length > 0 && (
